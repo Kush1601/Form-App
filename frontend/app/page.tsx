@@ -4,7 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronRight, CheckCircle2, Sparkles, User, MessageSquare } from "lucide-react";
 
-const API = "http://127.0.0.1:5001/api";
+const API = "http://localhost:5001/api";
 
 export default function Home() {
   const [step, setStep] = useState(1);

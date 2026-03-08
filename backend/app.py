@@ -10,11 +10,12 @@ load_dotenv()
 
 app = Flask(__name__)
 # Database connection
-CORS(app, resources={r"/api/*": {"origins": ["http://localhost:3000"]}})
+CORS(app, resources={r"/api/*": {"origins": "*"}})
 # Local Development Database (SQLite)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///local_dev.db'
-# AWS RDS Production Database (Uncomment and add password if needed)
-# app.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql://postgres:Kush1234@kush-db.czq6a4a0sbnx.us-east-2.rds.amazonaws.com:5432/postgres"
+
+# AWS RDS Production Database (Uncomment and add real password if testing AWS locally)
+# app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:YOUR_PASSWORD_HERE@kush-db.czq6a4a0sbnx.us-east-2.rds.amazonaws.com:5432/postgres"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
@@ -88,19 +89,19 @@ def get_responses():
 
 @app.route('/api/admin/analytics', methods=['GET'])
 def get_analytics():
-    from sqlalchemy import func, cast, Date
-    rows = db.session.query(
-        cast(Submission.created_at, Date).label('day'),
-        Submission.status,
-        func.count().label('cnt')
-    ).group_by('day', Submission.status).order_by('day').all()
+    rows = Submission.query.all()
     daily = {}
-    for day, status, cnt in rows:
-        d = day.isoformat()
+    for row in rows:
+        if not row.created_at:
+            continue
+        d = row.created_at.strftime('%Y-%m-%d')
         if d not in daily:
             daily[d] = {"date": d, "complete": 0, "incomplete": 0}
-        daily[d]["complete" if status == "COMPLETE" else "incomplete"] += cnt
-    return jsonify(list(daily.values()))
+        daily[d]["complete" if row.status == "COMPLETE" else "incomplete"] += 1
+    
+    # Sort the list by date before returning
+    sorted_daily = sorted(list(daily.values()), key=lambda x: x['date'])
+    return jsonify(sorted_daily)
 
 @app.route('/api/admin/responses/<int:sub_id>', methods=['DELETE'])
 def delete_response(sub_id):

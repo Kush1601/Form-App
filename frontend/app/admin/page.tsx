@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Trash2 } from "lucide-react";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid } from "recharts";
 
-const API = "http://127.0.0.1:5001/api/admin";
+const API = "http://localhost:5001/api/admin";
 const card = "bg-white/5 border border-white/10 rounded-2xl";
 const tipStyle = { background: '#111', border: '1px solid #333', borderRadius: '8px' };
 const axis = { fill: '#ffffff50', fontSize: 11 };
