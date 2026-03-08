@@ -11,8 +11,10 @@ load_dotenv()
 app = Flask(__name__)
 # Database connection
 CORS(app, resources={r"/api/*": {"origins": ["http://localhost:3000"]}})
-# Using AWS RDS PostgreSQL db URL and password
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://postgres:YOUR_PASSWORD_HERE@your-db-instance.rds.amazonaws.com:5432/postgres"
+# Local Development Database (SQLite)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///local_dev.db'
+# AWS RDS Production Database (Uncomment and add password if needed)
+# app.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql://postgres:Kush1234@kush-db.czq6a4a0sbnx.us-east-2.rds.amazonaws.com:5432/postgres"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
