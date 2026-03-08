@@ -9,14 +9,6 @@ const tipStyle = { background: '#111', border: '1px solid #333', borderRadius: '
 const axis = { fill: '#ffffff50', fontSize: 11 };
 
 export default function AdminDashboard() {
-    /**
-     * ADMIN DASHBOARD ARCHITECTURE (5 Key Sections):
-     * 1. Data State: holds the rows, pagination, and filter values directly in React memory.
-     * 2. Data Loader: fetches paginated rows from the Flask API based on current filters.
-     * 3. React Effects: auto-runs the loaders when variables (like page or filters) change.
-     * 4. Delete Function: removes a row instantly from the UI and tells Flask to delete it.
-     * 5. Chart Data Prep: formats the raw numbers so Recharts can draw the Pie and Bar graphs.
-     */
 
     {/*  Data State (Holds rows, pagination, and filter values) */ }
     const [data, setData] = useState<any[]>([]);
