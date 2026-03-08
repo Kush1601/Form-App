@@ -1,4 +1,4 @@
-# Kushmusic Form & Admin Dashboard
+# Kush Form & Admin Dashboard
 
 A full-stack, "Next-Gen" lead generation form and administrative dashboard built to handle partial data capture and high-concurrency traffic.
 
